@@ -1,11 +1,11 @@
 /*
 
 import Basics exposing (identity)
-import Elm.Kernel.Debug exposing (crash)
-import Elm.Kernel.Json exposing (equality, runHelp, unwrap)
-import Elm.Kernel.List exposing (Cons, Nil)
-import Elm.Kernel.Utils exposing (Tuple2)
-import Elm.Kernel.Platform exposing (export)
+import Gren.Kernel.Debug exposing (crash)
+import Gren.Kernel.Json exposing (equality, runHelp, unwrap)
+import Gren.Kernel.List exposing (Cons, Nil)
+import Gren.Kernel.Utils exposing (Tuple2)
+import Gren.Kernel.Platform exposing (export)
 import Json.Decode as Json exposing (map, map2, succeed)
 import Result exposing (isOk)
 import VirtualDom exposing (toHandlerInt)
@@ -438,7 +438,7 @@ function _VirtualDom_render(vNode, eventNode)
 
 		var subEventRoot = { __tagger: tagger, __parent: eventNode };
 		var domNode = _VirtualDom_render(subNode, subEventRoot);
-		domNode.elm_event_node_ref = subEventRoot;
+		domNode.gren_event_node_ref = subEventRoot;
 		return domNode;
 	}
 
@@ -554,7 +554,7 @@ function _VirtualDom_applyAttrsNS(domNode, nsAttrs)
 
 function _VirtualDom_applyEvents(domNode, eventNode, events)
 {
-	var allCallbacks = domNode.elmFs || (domNode.elmFs = {});
+	var allCallbacks = domNode.grenFs || (domNode.grenFs = {});
 
 	for (var key in events)
 	{
@@ -1141,7 +1141,7 @@ function _VirtualDom_diffKeyedKids(xParent, yParent, patches, rootIndex)
 // CHANGES FROM KEYED DIFF
 
 
-var _VirtualDom_POSTFIX = '_elmW6BL';
+var _VirtualDom_POSTFIX = '_grenW6BL';
 
 
 function _VirtualDom_insertNode(changes, localPatches, key, vnode, yIndex, inserts)
@@ -1306,7 +1306,7 @@ function _VirtualDom_addDomNodesHelp(domNode, vNode, patches, i, low, high, even
 			subNode = subNode.__node;
 		}
 
-		return _VirtualDom_addDomNodesHelp(domNode, subNode, patches, i, low + 1, high, domNode.elm_event_node_ref);
+		return _VirtualDom_addDomNodesHelp(domNode, subNode, patches, i, low + 1, high, domNode.gren_event_node_ref);
 	}
 
 	// tag must be __2_NODE or __2_KEYED_NODE at this point
@@ -1381,13 +1381,13 @@ function _VirtualDom_applyPatch(domNode, patch)
 			return _VirtualDom_applyPatchesHelp(domNode, patch.__data);
 
 		case __3_TAGGER:
-			if (domNode.elm_event_node_ref)
+			if (domNode.gren_event_node_ref)
 			{
-				domNode.elm_event_node_ref.__tagger = patch.__data;
+				domNode.gren_event_node_ref.__tagger = patch.__data;
 			}
 			else
 			{
-				domNode.elm_event_node_ref = { __tagger: patch.__data, __parent: patch.__eventNode };
+				domNode.gren_event_node_ref = { __tagger: patch.__data, __parent: patch.__eventNode };
 			}
 			return domNode;
 
@@ -1442,9 +1442,9 @@ function _VirtualDom_applyPatchRedraw(domNode, vNode, eventNode)
 	var parentNode = domNode.parentNode;
 	var newNode = _VirtualDom_render(vNode, eventNode);
 
-	if (!newNode.elm_event_node_ref)
+	if (!newNode.gren_event_node_ref)
 	{
-		newNode.elm_event_node_ref = domNode.elm_event_node_ref;
+		newNode.gren_event_node_ref = domNode.gren_event_node_ref;
 	}
 
 	if (parentNode && newNode !== domNode)
