@@ -3,7 +3,6 @@
 import Basics exposing (identity)
 import Gren.Kernel.Debug exposing (crash)
 import Gren.Kernel.Json exposing (equality, runHelp, unwrap)
-import Gren.Kernel.List exposing (Cons, Nil)
 import Gren.Kernel.Utils exposing (Tuple2)
 import Gren.Kernel.Platform exposing (export)
 import Json.Decode as Json exposing (map, map2, succeed)
@@ -68,13 +67,14 @@ var _VirtualDom_nodeNS = F2(function(namespace, tag)
 {
 	return F2(function(factList, kidList)
 	{
-		for (var kids = [], descendantsCount = 0; kidList.b; kidList = kidList.b) // WHILE_CONS
+        for (var kids = [], descendantsCount = 0, i = 0; i < kidList.length; i++)
 		{
-			var kid = kidList.a;
+			var kid = kidList[i];
 			descendantsCount += (kid.__descendantsCount || 0);
 			kids.push(kid);
 		}
-		descendantsCount += kids.length;
+		
+        descendantsCount += kids.length;
 
 		return {
 			$: __2_NODE,
@@ -99,13 +99,14 @@ var _VirtualDom_keyedNodeNS = F2(function(namespace, tag)
 {
 	return F2(function(factList, kidList)
 	{
-		for (var kids = [], descendantsCount = 0; kidList.b; kidList = kidList.b) // WHILE_CONS
+		for (var kids = [], descendantsCount = 0, i = 0; i < kidList.length; i++)
 		{
-			var kid = kidList.a;
+			var kid = kidList[i];
 			descendantsCount += (kid.b.__descendantsCount || 0);
 			kids.push(kid);
 		}
-		descendantsCount += kids.length;
+		
+        descendantsCount += kids.length;
 
 		return {
 			$: __2_KEYED_NODE,
@@ -371,9 +372,9 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 
 function _VirtualDom_organizeFacts(factList)
 {
-	for (var facts = {}; factList.b; factList = factList.b) // WHILE_CONS
+	for (var facts = {}, i = 0; i < factList.length; i++)
 	{
-		var entry = factList.a;
+		var entry = factList[i];
 
 		var tag = entry.$;
 		var key = entry.__key;
@@ -1528,25 +1529,27 @@ function _VirtualDom_virtualize(node)
 
 	// ELEMENT NODES
 
-	var attrList = __List_Nil;
 	var attrs = node.attributes;
-	for (var i = attrs.length; i--; )
+	var attrList = new Array(attrs.length);
+	
+    for (var i = 0; i < attrs.length; i++ )
 	{
 		var attr = attrs[i];
 		var name = attr.name;
 		var value = attr.value;
-		attrList = __List_Cons( A2(_VirtualDom_attribute, name, value), attrList );
+		attrList[i] = A2(_VirtualDom_attribute, name, value);
 	}
 
 	var tag = node.tagName.toLowerCase();
-	var kidList = __List_Nil;
 	var kids = node.childNodes;
+	var kidList = new Array(kids.length);
 
-	for (var i = kids.length; i--; )
+	for (var i = 0; i < kids.length; i++ )
 	{
-		kidList = __List_Cons(_VirtualDom_virtualize(kids[i]), kidList);
+		kidList[i] = _VirtualDom_virtualize(kids[i]);
 	}
-	return A3(_VirtualDom_node, tag, attrList, kidList);
+	
+    return A3(_VirtualDom_node, tag, attrList, kidList);
 }
 
 function _VirtualDom_dekey(keyedNode)
@@ -1554,7 +1557,8 @@ function _VirtualDom_dekey(keyedNode)
 	var keyedKids = keyedNode.__kids;
 	var len = keyedKids.length;
 	var kids = new Array(len);
-	for (var i = 0; i < len; i++)
+	
+    for (var i = 0; i < len; i++)
 	{
 		kids[i] = keyedKids[i].b;
 	}
