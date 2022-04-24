@@ -63,13 +63,12 @@ function _VirtualDom_text(string)
 // NODE
 
 
-var _VirtualDom_nodeNS = F4(function(namespace, tag, factList, kidList)
+var _VirtualDom_nodeNS = F4(function(namespace, tag, factList, kids)
 {
-    for (var kids = [], descendantsCount = 0, i = 0; i < kidList.length; i++)
+    for (var descendantsCount = 0, i = 0; i < kids.length; i++)
     {
-        var kid = kidList[i];
+        var kid = kids[i];
         descendantsCount += (kid.__descendantsCount || 0);
-        kids.push(kid);
     }
 
     descendantsCount += kids.length;
@@ -95,13 +94,12 @@ var _VirtualDom_node = F3(function(tag, factList, kidList)
 // KEYED NODE
 
 
-var _VirtualDom_keyedNodeNS = F4(function(namespace, tag, factList, kidList)
+var _VirtualDom_keyedNodeNS = F4(function(namespace, tag, factList, kids)
 {
-    for (var kids = [], descendantsCount = 0, i = 0; i < kidList.length; i++)
+    for (var descendantsCount = 0, i = 0; i < kids.length; i++)
     {
-        var kid = kidList[i];
+        var kid = kids[i];
         descendantsCount += (kid.__$node.__descendantsCount || 0);
-        kids.push(kid);
     }
 
     descendantsCount += kids.length;
