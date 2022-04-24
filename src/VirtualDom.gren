@@ -271,8 +271,8 @@ divergence impossible.
 -}
 type Handler msg
   = Normal (Json.Decoder msg)
-  | MayStopPropagation (Json.Decoder (msg, Bool))
-  | MayPreventDefault (Json.Decoder (msg, Bool))
+  | MayStopPropagation (Json.Decoder { message : msg, stopPropagation : Bool })
+  | MayPreventDefault (Json.Decoder { message : msg, preventDefault : Bool })
   | Custom (Json.Decoder { message : msg, stopPropagation : Bool, preventDefault : Bool })
 
 

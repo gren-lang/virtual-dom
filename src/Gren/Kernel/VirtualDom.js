@@ -335,25 +335,42 @@ function _VirtualDom_mapHandler(func, handler)
 	// 2 = MayPreventDefault
 	// 3 = Custom
 
+    var mappedDecoder;
+    switch (tag) {
+        case 0:
+            A2(__Json_map, func, handler.a);
+            break;
+        case 1:
+            A3(__Json_map2, _VirtualDom_mapMayStopPropagation, __Json_succeed(func), handler.a);
+            break;
+        case 2:
+            A3(__Json_map2, _VirtualDom_mapMayPreventDefault, __Json_succeed(func), handler.a);
+            break;
+        case 3:
+            A3(__Json_map2, _VirtualDom_mapEventRecord, __Json_succeed(func), handler.a);
+            break;
+    }
+
 	return {
 		$: handler.$,
-		a:
-			!tag
-				? A2(__Json_map, func, handler.a)
-				:
-			A3(__Json_map2,
-				tag < 3
-					? _VirtualDom_mapEventTuple
-					: _VirtualDom_mapEventRecord,
-				__Json_succeed(func),
-				handler.a
-			)
+		a: mappedDecoder
 	};
 }
 
-var _VirtualDom_mapEventTuple = F2(function(func, tuple)
+var _VirtualDom_mapMayStopPropagation = F2(function(func, record)
 {
-	return __Utils_Tuple2(func(tuple.a), tuple.b);
+	return {
+		__$message: func(record.__$message),
+		__$stopPropagation: record.__$stopPropagation
+	}
+});
+
+var _VirtualDom_mapMayPreventDefault = F2(function(func, record)
+{
+	return {
+		__$message: func(record.__$message),
+		__$preventDefault: record.__$preventDefault
+	}
 });
 
 var _VirtualDom_mapEventRecord = F2(function(func, record)
