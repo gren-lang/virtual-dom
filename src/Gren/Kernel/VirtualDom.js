@@ -100,7 +100,7 @@ var _VirtualDom_keyedNodeNS = F4(function(namespace, tag, factList, kidList)
     for (var kids = [], descendantsCount = 0, i = 0; i < kidList.length; i++)
     {
         var kid = kidList[i];
-        descendantsCount += (kid.b.__descendantsCount || 0);
+        descendantsCount += (kid.__$node.__descendantsCount || 0);
         kids.push(kid);
     }
 
@@ -482,7 +482,7 @@ function _VirtualDom_render(vNode, eventNode)
 
 	for (var kids = vNode.__kids, i = 0; i < kids.length; i++)
 	{
-		_VirtualDom_appendChild(domNode, _VirtualDom_render(tag === __2_NODE ? kids[i] : kids[i].b, eventNode));
+		_VirtualDom_appendChild(domNode, _VirtualDom_render(tag === __2_NODE ? kids[i] : kids[i].__$node, eventNode));
 	}
 
 	return domNode;
@@ -1017,10 +1017,10 @@ function _VirtualDom_diffKeyedKids(xParent, yParent, patches, rootIndex)
 		var x = xKids[xIndex];
 		var y = yKids[yIndex];
 
-		var xKey = x.a;
-		var yKey = y.a;
-		var xNode = x.b;
-		var yNode = y.b;
+		var xKey = x.__$key;
+		var yKey = y.__$key;
+		var xNode = x.__$node;
+		var yNode = y.__$node;
 
 		var newMatch = undefined;
 		var oldMatch = undefined;
@@ -1045,15 +1045,15 @@ function _VirtualDom_diffKeyedKids(xParent, yParent, patches, rootIndex)
 
 		if (xNext)
 		{
-			var xNextKey = xNext.a;
-			var xNextNode = xNext.b;
+			var xNextKey = xNext.__$key;
+			var xNextNode = xNext.__$key;
 			oldMatch = yKey === xNextKey;
 		}
 
 		if (yNext)
 		{
-			var yNextKey = yNext.a;
-			var yNextNode = yNext.b;
+			var yNextKey = yNext.__$key;
+			var yNextNode = yNext.__$key;
 			newMatch = xKey === yNextKey;
 		}
 
@@ -1130,8 +1130,8 @@ function _VirtualDom_diffKeyedKids(xParent, yParent, patches, rootIndex)
 	{
 		index++;
 		var x = xKids[xIndex];
-		var xNode = x.b;
-		_VirtualDom_removeNode(changes, localPatches, x.a, xNode, index);
+		var xNode = x.__$node;
+		_VirtualDom_removeNode(changes, localPatches, x.__$key, xNode, index);
 		index += xNode.__descendantsCount || 0;
 		xIndex++;
 	}
@@ -1140,7 +1140,7 @@ function _VirtualDom_diffKeyedKids(xParent, yParent, patches, rootIndex)
 	{
 		var endInserts = endInserts || [];
 		var y = yKids[yIndex];
-		_VirtualDom_insertNode(changes, localPatches, y.a, y.b, undefined, endInserts);
+		_VirtualDom_insertNode(changes, localPatches, y.__$key, y.__$node, undefined, endInserts);
 		yIndex++;
 	}
 
@@ -1334,7 +1334,7 @@ function _VirtualDom_addDomNodesHelp(domNode, vNode, patches, i, low, high, even
 	for (var j = 0; j < vKids.length; j++)
 	{
 		low++;
-		var vKid = tag === __2_NODE ? vKids[j] : vKids[j].b;
+		var vKid = tag === __2_NODE ? vKids[j] : vKids[j].__$node;
 		var nextLow = low + (vKid.__descendantsCount || 0);
 		if (low <= index && index <= nextLow)
 		{

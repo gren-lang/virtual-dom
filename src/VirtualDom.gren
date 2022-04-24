@@ -351,7 +351,7 @@ node. You want this when you have a list of nodes that is changing: adding
 nodes, removing nodes, etc. In these cases, the unique identifiers help make
 the DOM modifications more efficient.
 -}
-keyedNode : String -> Array (Attribute msg) -> Array ( String, Node msg ) -> Node msg
+keyedNode : String -> Array (Attribute msg) -> Array { key : String, node : Node msg } -> Node msg
 keyedNode tag =
   Gren.Kernel.VirtualDom.keyedNode (Gren.Kernel.VirtualDom.noScript tag)
 
@@ -363,7 +363,7 @@ could be defined like this:
     g =
       keyedNodeNS "http://www.w3.org/2000/svg" "g"
 -}
-keyedNodeNS : String -> String -> Array (Attribute msg) -> Array ( String, Node msg ) -> Node msg
+keyedNodeNS : String -> String -> Array (Attribute msg) -> Array { key : String, node : Node msg } -> Node msg
 keyedNodeNS namespace tag =
   Gren.Kernel.VirtualDom.keyedNodeNS namespace (Gren.Kernel.VirtualDom.noScript tag)
 
