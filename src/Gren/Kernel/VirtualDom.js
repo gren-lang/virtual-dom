@@ -3,7 +3,6 @@
 import Basics exposing (identity)
 import Gren.Kernel.Debug exposing (crash)
 import Gren.Kernel.Json exposing (equality, runHelp, unwrap)
-import Gren.Kernel.Utils exposing (Tuple2)
 import Gren.Kernel.Platform exposing (export)
 import Json.Decode as Json exposing (map, map2, succeed)
 import Result exposing (isOk)
