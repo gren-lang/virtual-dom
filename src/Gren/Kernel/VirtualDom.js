@@ -643,11 +643,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.__$message;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.__$stopPropagation;
+		var message = !tag ? value : value.__$message;
+		var stopPropagation = tag == 1 || tag == 3 ? value.__$stopPropagation : false;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.__$preventDefault) && event.preventDefault(),
+			(tag == 2 || tag == 3 ? value.__$preventDefault : false) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
